@@ -1,40 +1,40 @@
 import React, { useState } from "react";
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Home, Search, Explore, SlowMotionVideo, Notifications, ChatBubbleOutline, AccountCircle, Bookmark } from '@mui/icons-material';
-import './styles.css';
+import * as S from './styles';
 
 const LeftSidePanel = () => {
     const [collapsed, setCollapsed] = useState(false);
     const leftMenu = ['Home', 'Search', 'Explore', 'Reels', 'Notifications', 'Messages', 'Profile', 'Saved'];
 
-    const ItemIcon = (text, className) => {
+    const ItemIcon = (text) => {
         switch(text) {
-            case "Home": return <Home className={ className } />;
-            case "Search": return <Search className={ className } />;
-            case "Explore": return <Explore className={ className } />;
-            case "Reels": return <SlowMotionVideo className={ className } />;
-            case "Notifications": return <Notifications className={ className } />;
-            case "Messages": return <ChatBubbleOutline className={ className } />;
-            case "Profile": return <AccountCircle className={ className } />;
-            case "Saved": return <Bookmark className={ className } />;
+            case "Home": return <Home style={{ color: 'black' }} />;
+            case "Search": return <Search style={{ color: 'black' }} />;
+            case "Explore": return <Explore style={{ color: 'black' }} />;
+            case "Reels": return <SlowMotionVideo style={{ color: 'black' }} />;
+            case "Notifications": return <Notifications style={{ color: 'black' }} />;
+            case "Messages": return <ChatBubbleOutline style={{ color: 'black' }} />;
+            case "Profile": return <AccountCircle style={{ color: 'black' }} />;
+            case "Saved": return <Bookmark style={{ color: 'black' }} />;
             default: return;
         }
     }
 
     return <>
         <Drawer variant="permanent" open={collapsed} PaperProps={{ sx: { width: "240px" }, }}>
-            <div className="logo">
-                <span className="font-logo">
+            <S.StyledLogo>
+                <S.StyledFontLogo>
                     Pet Fever
-                </span>
-            </div>
+                </S.StyledFontLogo>
+            </S.StyledLogo>
             <List>
                 {leftMenu.map((text) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
-                            <ListItemIcon className="list">
-                                { ItemIcon(text, 'list-icon') }
-                            </ListItemIcon>
+                            <S.StyledListIcon>
+                                { ItemIcon(text) }
+                            </S.StyledListIcon>
                             <ListItemText primary={text} />
                         </ListItemButton>
                     </ListItem>
