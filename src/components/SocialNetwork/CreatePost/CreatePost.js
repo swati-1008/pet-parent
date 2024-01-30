@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CardContent, TextField, Button } from '@mui/material';
+import { CardContent } from '@mui/material';
 import avatar from '../../../assets/images/dp1.jpeg'
 import * as S from './styles';
 

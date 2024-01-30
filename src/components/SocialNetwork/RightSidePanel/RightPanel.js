@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import { Home, Search, Explore, SlowMotionVideo, Notifications, ChatBubbleOutline, AccountCircle, Bookmark } from '@mui/icons-material';
 import * as S from './styles';
 
 const RightPanel = () => {
+    /* eslint-disable no-unused-vars */
     const [collapsed, setCollapsed] = useState(false);
     const leftMenu = ['Home', 'Search', 'Explore', 'Reels', 'Notifications', 'Messages', 'Profile', 'Saved'];
 
