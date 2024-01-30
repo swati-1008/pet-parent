@@ -10,7 +10,7 @@ const CreatePost = () => {
     }
     return (
         <S.StyledCard variant='outlined'>
-          <CardContent style={{ marginTop: "15px" }}>
+          <CardContent style={{ height: '60px', display: 'flex', marginTop: '10px' }}>
             <S.StyledAvatar src={avatar} />
             <S.StyledTextField
                 variant='standard'

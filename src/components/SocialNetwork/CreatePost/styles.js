@@ -12,11 +12,11 @@ export const StyledAvatar = styled(Avatar)(() => ({
 }));
 
 export const StyledTextField = styled(TextField)(() => ({
-    marginTop: "-15px", 
     width: "1200px", 
 }));
 
 export const StyledSubmit = styled(Button)(() => ({
     marginRight: "20px", 
     float: "right", 
+    height: '40px', 
 }))
