@@ -3,9 +3,8 @@ import { ListItemIcon } from '@mui/material';
 
 export const StyledLogo = styled('div')(() => ({
     background: `rgba(255, 255, 255, 0.2)`, 
-    margin: "30px", 
+    margin: "30px 30px 20px 30px", 
     fontWeight: "bold", 
-    marginBottom: "20px", 
 }));
 
 export const StyledFontLogo = styled('span')(() => ({

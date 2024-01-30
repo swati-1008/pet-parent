@@ -1,26 +1,12 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import { Home, Search, Explore, SlowMotionVideo, Notifications, ChatBubbleOutline, AccountCircle, Bookmark } from '@mui/icons-material';
+import { Drawer, List } from '@mui/material';
 import * as S from './styles';
+import suggestedPeopleList from './suggestedPeopleList';
+import { Avatar } from '@mui/material';
 
 const RightPanel = () => {
     /* eslint-disable no-unused-vars */
     const [collapsed, setCollapsed] = useState(false);
-    const leftMenu = ['Home', 'Search', 'Explore', 'Reels', 'Notifications', 'Messages', 'Profile', 'Saved'];
-
-    const ItemIcon = (text) => {
-        switch(text) {
-            case "Home": return <Home style={{ color: 'black' }} />;
-            case "Search": return <Search style={{ color: 'black' }} />;
-            case "Explore": return <Explore style={{ color: 'black' }} />;
-            case "Reels": return <SlowMotionVideo style={{ color: 'black' }} />;
-            case "Notifications": return <Notifications style={{ color: 'black' }} />;
-            case "Messages": return <ChatBubbleOutline style={{ color: 'black' }} />;
-            case "Profile": return <AccountCircle style={{ color: 'black' }} />;
-            case "Saved": return <Bookmark style={{ color: 'black' }} />;
-            default: return;
-        }
-    }
     
     return <>
         <Drawer 
@@ -28,7 +14,6 @@ const RightPanel = () => {
             open={collapsed} 
             PaperProps={{ 
                 sx: { 
-                    width: "240px", 
                     borderWidth: '0px', 
                     left: 'auto', 
                 } 
@@ -36,20 +21,16 @@ const RightPanel = () => {
         >
             <S.StyledLogo>
                 <S.StyledFontLogo>
-                    Pet Fever
+                    People you may know
                 </S.StyledFontLogo>
             </S.StyledLogo>
             <List>
-                {leftMenu.map((text) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <S.StyledListIcon>
-                                { ItemIcon(text) }
-                            </S.StyledListIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                { suggestedPeopleList.map((user) => {
+                    return <S.SuggestedPeople>
+                            <Avatar src={user.avatar} style={{ display: 'inline-block' }} />
+                            <S.UserHandle>{ user.userHandle }</S.UserHandle>
+                        </S.SuggestedPeople>
+                }) }
             </List>
         </Drawer>
         </>
