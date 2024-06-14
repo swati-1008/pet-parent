@@ -1,0 +1,56 @@
+# Ignore IntelliJ IDEA files
+.idea/
+
+# Ignore Maven build directory
+target/
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore Mac OS system files
+.DS_Store
+
+# Ignore IDE files
+*.iml
+
+# Ignore Maven generated files
+mvnw
+mvnw.cmd
+
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### SQL Queries for Pawsters ###
+DB\ Scripts/
+

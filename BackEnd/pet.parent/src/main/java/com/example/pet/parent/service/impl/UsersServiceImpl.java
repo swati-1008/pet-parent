@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,5 +52,26 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public void deleteUser(int id) {
         usersRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Users> findByUsername(String username) {
+        return usersRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<Users> findByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<Users> login(String username, String password) {
+        Optional<Users> optionalUser = usersRepository.findByUsername((username));
+        if (optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+            if (Objects.equals(password, user.getPassword()))
+                return Optional.of(user);
+        }
+        return Optional.empty();
     }
 }
