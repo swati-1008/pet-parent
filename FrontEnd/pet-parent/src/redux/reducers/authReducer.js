@@ -17,7 +17,7 @@ const authReducer = (state = initialState, action) => {
         case SIGNUP_SUCCESS: 
             return {
                 ...state, 
-                isAuthenticated: true, 
+                isAuthenticated: false, 
                 error: null, 
             };
         case CHECK_USERNAME_SUCCESS: 

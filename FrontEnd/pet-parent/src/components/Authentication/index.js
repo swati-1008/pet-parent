@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkUsername, login, signUp } from '../../redux/actions/authAction';
 import * as S from './styles';
-import backgroundImage from '../../assets/images/background.png';
-import paw from '../../assets/images/paw.png';
+import backgroundImage from '../../assets/images/Authentication/background.png';
+import paw from '../../assets/images/Authentication/paw.png';
 import { TextField, Button, Typography } from '@mui/material';
 
 const Authentication = () => {
     const dispatch = useDispatch();
-    const { error, usernameExists } = useSelector(state => state.auth);
+    const navigate = useNavigate();
+    const { error, usernameExists, isAuthenticated } = useSelector(state => state.auth);
 
     const [formData, setFormData] = useState({
         username: '', 
@@ -24,6 +26,11 @@ const Authentication = () => {
             dispatch(checkUsername(formData.username))
     }, [formData.username, dispatch]);
 
+    useEffect(() => {
+        if (isAuthenticated)
+            navigate('/') 
+    }, [isAuthenticated, navigate]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -32,19 +39,33 @@ const Authentication = () => {
         }));
     };
 
-    const handleAuth = (e) => {
+    const handleAuth = async (e) => {
         e.preventDefault();
-        if (isSigningUp) {
-            if (formData.password === formData.confirmPassword)
-                dispatch(signUp({ formData }));
-            else 
-                alert('Passwords do not match');
+        try {
+            if (isSigningUp) {
+                if (formData.password === formData.confirmPassword) {
+                    await dispatch(signUp({ formData })).then(() => {
+                        setIsSigningUp(false);
+                        setFormData({
+                            username: '', 
+                            email: '', 
+                            password: '', 
+                            confirmPassword: '', 
+                        });
+                    });
+                }
+                else 
+                    alert('Passwords do not match');
+            }
+            else {
+                if (usernameExists)
+                    await dispatch(login({ username: formData.username, email: formData.email, password: formData.password }));
+                else 
+                    alert('Username does not exist. Please sign up');
+            }
         }
-        else {
-            if (usernameExists)
-                dispatch(login({ username: formData.username, email: formData.email, password: formData.password }));
-            else 
-                alert('Username does not exist. Please sign up');
+        catch (err) {
+            console.error(err);
         }
     }
 
@@ -150,6 +171,9 @@ const Authentication = () => {
                         ) }
                     </S.LinkText>
                     { error && <p style = {{ color: 'red', textAlign: 'center' }}>{ error }</p> }
+                    <S.PawPrint src = { paw } size = '80px' top = '83%' left = '32%' />
+                    <S.PawPrint src = { paw } size = '40px' top = '79%' left = '58%' />
+                    <S.PawPrint src = { paw } size = '20px' top = '72%' left = '68%' />
                 </S.FormCard>
             </S.FormContainer>
         </S.StyledBackground>
@@ -160,7 +184,8 @@ export default Authentication;
 
 
 // TODO: 
-// 1. Add paw prints inside card
-// 2. Use formData instead of different username, email states
-// 3. After Sign Up successful, automatically redirect to Sign In and vice versa
 // 4. Password Encryption
+// 5. Show Sign In/Sign Up successful
+// 6. Forgot Password
+// 7. Change /social to homepage -> Verify it works on signing in
+// 8. Should land on Authentication page, and then take to Landing page and so on

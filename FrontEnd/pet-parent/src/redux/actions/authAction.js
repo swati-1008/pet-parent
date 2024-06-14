@@ -39,13 +39,18 @@ export const login = (credentials) => async (dispatch) => {
 export const signUp = (userDetails) => async (dispatch) => {
     try {
         const response = await axiosInstance.post('/user/signup', userDetails.formData);
-        if (response.data.success)
+        if (response.status === 200) {
             dispatch(signUpSuccess());
-        else
+            return Promise.resolve();
+        }
+        else {
             dispatch(authError(response.data.message));
+            return Promise.reject();
+        }
     }
     catch (error) {
         dispatch(authError(error.response ? error.response.data.message : 'Network Error'));
+        return Promise.reject();
     }
 };
 
