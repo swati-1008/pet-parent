@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkUsername, login, signUp } from '../../redux/actions/authAction';
 import * as S from './styles';
@@ -10,6 +10,7 @@ import { TextField, Button, Typography } from '@mui/material';
 const Authentication = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const { error, usernameExists, isAuthenticated } = useSelector(state => state.auth);
 
     const [formData, setFormData] = useState({
@@ -27,9 +28,11 @@ const Authentication = () => {
     }, [formData.username, dispatch]);
 
     useEffect(() => {
-        if (isAuthenticated)
-            navigate('/') 
-    }, [isAuthenticated, navigate]);
+        if (isAuthenticated) {
+            const from = location.state?.from || '/home';
+            navigate(from);
+        }
+    }, [isAuthenticated, navigate, location.state]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

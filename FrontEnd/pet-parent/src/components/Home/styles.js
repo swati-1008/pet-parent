@@ -1,6 +1,7 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+/* ----------------- Header ------------------ */
 export const StyledHeader = styled('header')(() => ({
     display: 'flex', 
     alignItems: 'center', 
@@ -36,7 +37,21 @@ export const ProfileIcon = styled('img')(() => ({
     width: '40px', 
     height: '40px', 
     borderRadius: '50%', 
-}))
+}));
+
+/* --------------- General ------------------ */
+
+export const Headline = styled(Typography)(() => ({
+    marginBottom: '20px', 
+    fontWeight: 'bold', 
+    color: '#333', 
+    fontSize: '3.5rem', 
+    textAlign: 'center', 
+    padding: '8px 16px', 
+    fontFamily: 'Pacifico, sans-serif', 
+}));
+
+/* --------------- Carousel ----------------- */
 
 export const CarouselBox = styled(Box)(() => ({
     width: '90%', 
@@ -55,15 +70,7 @@ export const CarouselImage = styled('img')(() => ({
     transform: 'scaleY(0.8)', 
 }));
 
-export const Headline = styled(Typography)(() => ({
-    marginBottom: '20px', 
-    fontWeight: 'bold', 
-    color: '#333', 
-    fontSize: '3.5rem', 
-    textAlign: 'center', 
-    padding: '8px 16px', 
-    fontFamily: 'Pacifico, sans-serif', 
-}));
+/* ------------------ Features ------------------ */
 
 export const FeatureSection = styled(Box)(() => ({
     display: 'flex', 
@@ -107,6 +114,8 @@ export const FeatureText = styled(Typography)(() => ({
     color: '#333', 
 }));
 
+/* ------------- Testimonails ---------------- */
+
 export const TestimonialContainer = styled(Box)(() => ({
     padding: '48px 16px', 
     backgroundColor: '#F9F9F9', 
@@ -136,6 +145,8 @@ export const TestimonialQuote = styled(Typography)(() => ({
 export const TestimonialName = styled(Typography)(() => ({
     fontWeight: 'bold', 
 }));
+
+/* ---------------- Blogs ---------------- */
 
 export const BlogContainer = styled(Box)(() => ({
     padding: '48px 16px', 
@@ -178,6 +189,8 @@ export const BlogDescription = styled(Typography)(() => ({
 export const BlogAuthor = styled(Typography)(() => ({
     fontStyle: 'italic', 
 }));
+
+/* ---------------- About Us ---------------- */
 
 export const AboutContainer = styled(Box)(() => ({
     padding: '48px 16px', 

@@ -32,7 +32,7 @@ const SearchBar = () => {
     }
 
     const renderSuggestions = (suggestions) => {
-        return <Paper style={{ position: 'absolute', width: '100%', zIndex: 1 }}>
+        return <Paper style={{ position: 'absolute', width: '100%', zIndex: 999 }}>
             <List>
                 { suggestions?.map((suggestion, index) => (
                     <ListItem key={index}>{ suggestion.suggestion }</ListItem>
