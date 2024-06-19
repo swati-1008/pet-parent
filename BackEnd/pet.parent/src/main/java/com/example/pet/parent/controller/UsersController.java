@@ -1,6 +1,9 @@
 package com.example.pet.parent.controller;
 
 import com.example.pet.parent.model.Users;
+import com.example.pet.parent.request.Users.UserEditRequest;
+import com.example.pet.parent.request.Users.UserIdRequest;
+import com.example.pet.parent.request.Users.UserLoginRequest;
 import com.example.pet.parent.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +19,14 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
-    @GetMapping("/all")
+    @PostMapping("/all")
     public List<Users> getAllUsers() {
         return usersService.getAllUsers();
     }
 
-    @GetMapping("/get")
-    public Optional<Users> getUserById(@RequestParam(name = "id") int id) {
-        return usersService.getUserById(id);
+    @PostMapping("/get")
+    public Optional<Users> getUserById(@RequestBody UserIdRequest userGetRequest) {
+        return usersService.getUserById(userGetRequest.getUserId());
     }
 
     @PostMapping("/create")
@@ -32,13 +35,13 @@ public class UsersController {
     }
 
     @PutMapping("/edit")
-    public Users updateUser(@RequestParam(name = "id") int id, @RequestBody Users users) {
-        return usersService.updateUser(id, users);
+    public Users updateUser(@RequestBody UserEditRequest userEditRequest) {
+        return usersService.updateUser(userEditRequest.getUserId(), userEditRequest.getUsers());
     }
 
     @DeleteMapping("/delete")
-    public void deleteUser(@RequestParam(name = "id") int id) {
-        usersService.deleteUser(id);
+    public void deleteUser(@RequestBody UserIdRequest userIdRequest) {
+        usersService.deleteUser(userIdRequest.getUserId());
     }
 
     @PostMapping("/signup")
@@ -54,10 +57,8 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login (@RequestBody Map<String, String> loginData) {
-        String username = loginData.get("username");
-        String password = loginData.get("password");
-        Optional<Users> optionalUser = usersService.login(username, password);
+    public ResponseEntity<?> login (@RequestBody UserLoginRequest userLoginRequest) {
+        Optional<Users> optionalUser = usersService.login(userLoginRequest.getUsername(), userLoginRequest.getPassword());
         if (optionalUser.isPresent())
             return ResponseEntity.ok(optionalUser.get());
         else

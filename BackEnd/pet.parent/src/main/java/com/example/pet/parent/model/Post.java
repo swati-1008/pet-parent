@@ -8,8 +8,8 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "post")
 @Entity
+@Table(name = "post")
 
 public class Post {
 
@@ -24,4 +24,7 @@ public class Post {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

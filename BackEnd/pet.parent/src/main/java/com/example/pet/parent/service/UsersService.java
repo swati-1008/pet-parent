@@ -14,4 +14,5 @@ public interface UsersService {
     Optional<Users> findByUsername(String username);
     Optional<Users> findByEmail(String email);
     Optional<Users> login (String username, String password);
+    List<Users> getPeopleYouMayKnow (int userId);
 }
