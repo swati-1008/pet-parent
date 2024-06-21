@@ -1,4 +1,4 @@
-import { Avatar, Drawer, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Avatar, Box, Drawer, ListItem, ListItemButton, ListItemText, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 /* ------------- General -------------- */
@@ -63,4 +63,34 @@ export const StyledListItemText = styled(ListItemText)({
     '& .MuiListItemText-primary': {
       fontWeight: 'bold',
     },
-  });
+});
+
+/* ----------------- Create Post ---------------- */
+
+export const CreatePostContainer = styled(Box)(() => ({
+    border: '1px solid #CCC', 
+    padding: '16px', 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    width: '45%', 
+    margin: '70px auto 0 auto', 
+    borderRadius: '8px', 
+}));
+
+export const StyledTextField = styled(TextField)(() => ({
+    marginLeft: '16px', 
+    marginRight: '16px', 
+    flexGrow: 1, 
+    '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+            borderColor: 'transparent',
+        },
+        '&:hover fieldset': {
+            borderColor: 'transparent',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: 'transparent',
+        },
+    },
+}));
