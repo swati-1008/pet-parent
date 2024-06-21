@@ -27,4 +27,13 @@ public class Post {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @Transient
+    private Long likeCount;
+
+    @Transient
+    private Long commentCount;
+
+    @Transient
+    private Long savesCount;
 }

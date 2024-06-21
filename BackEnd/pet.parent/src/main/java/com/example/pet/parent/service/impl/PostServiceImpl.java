@@ -5,6 +5,7 @@ import com.example.pet.parent.repository.PostRepository;
 import com.example.pet.parent.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +20,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+        List<Post> posts = postRepository.findAll();
+        posts.forEach(post -> {
+            post.setLikeCount(postRepository.countLikesByPostId(post.getPostId()));
+            post.setCommentCount(postRepository.countCommentsByPostId(post.getPostId()));
+            post.setSavesCount(postRepository.countSavesByPostId(post.getPostId()));
+        });
+        return posts;
     }
 
     @Override
+    @Transactional
     public Optional<Post> getPostById(int id) {
-        return postRepository.findById(id);
+        Optional<Post> post = postRepository.findById(id);
+        post.ifPresent(p -> {
+            p.setLikeCount(postRepository.countLikesByPostId(p.getPostId()));
+            p.setCommentCount(postRepository.countCommentsByPostId(p.getPostId()));
+            p.setSavesCount(postRepository.countSavesByPostId(p.getPostId()));
+        });
+        return post;
     }
 
     @Override
