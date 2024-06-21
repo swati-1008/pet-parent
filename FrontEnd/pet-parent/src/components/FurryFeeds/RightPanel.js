@@ -7,7 +7,6 @@ import { fetchSuggestedPeople } from "../../redux/actions/peopleYouMayKnowAction
 const RightPanel = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
-    console.log('user ', user)
     const suggestedPeople = useSelector((state) => state.peopleYouMayKnow.suggestedPeople);
 
     useEffect(() => {
