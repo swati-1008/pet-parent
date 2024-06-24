@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostIdRequest {
+public class ActionRequest {
     private int postId;
+    private int userId;
 }

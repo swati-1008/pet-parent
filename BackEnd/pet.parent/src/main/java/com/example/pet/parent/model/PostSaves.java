@@ -10,13 +10,13 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "post_saves")
-@IdClass(PostSaves.class)
+@IdClass(PostSavesId.class)
 public class PostSaves {
 
     @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users users;
+    private Users user;
 
     @Id
     @ManyToOne

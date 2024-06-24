@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostIdRequest {
-    private int postId;
+public class PostPageRequest {
+    private int page;
+    private int limit;
 }

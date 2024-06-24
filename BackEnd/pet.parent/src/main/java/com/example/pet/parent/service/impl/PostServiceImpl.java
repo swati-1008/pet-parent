@@ -1,23 +1,34 @@
 package com.example.pet.parent.service.impl;
 
-import com.example.pet.parent.model.Post;
+import com.example.pet.parent.model.*;
+import com.example.pet.parent.repository.PostLikesRepository;
 import com.example.pet.parent.repository.PostRepository;
+import com.example.pet.parent.repository.PostSavesRepository;
+import com.example.pet.parent.repository.UsersRepository;
 import com.example.pet.parent.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
-    private final PostRepository postRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @Autowired
-    public PostServiceImpl (PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    private PostLikesRepository postLikesRepository;
+
+    @Autowired
+    private PostSavesRepository postSavesRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -29,6 +40,11 @@ public class PostServiceImpl implements PostService {
             post.setSavesCount(postRepository.countSavesByPostId(post.getPostId()));
         });
         return posts;
+    }
+
+    @Override
+    public Page<Post> getAllPosts(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
     @Override
@@ -66,5 +82,53 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePost(int id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public void likePost (int postId, int userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        PostLikes postLikes = new PostLikes();
+        postLikes.setPost(post);
+        postLikes.setUser(user);
+        postLikesRepository.save(postLikes);
+    }
+
+    @Override
+    public void unlikePost (int postId, int userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        postLikesRepository.deleteById(new PostLikeId(user.getUserId(), post.getPostId()));
+    }
+
+    @Override
+    public void savePost (int postId, int userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        PostSaves postSaves = new PostSaves();
+        postSaves.setPost(post);
+        postSaves.setUser(user);
+        postSavesRepository.save(postSaves);
+    }
+
+    @Override
+    public void unsavePost (int postId, int userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        postSavesRepository.deleteById(new PostSavesId(user.getUserId(), post.getPostId()));
+    }
+
+    @Override
+    public List<Post> getLikedPostsByUser (int userId) {
+        return postLikesRepository.findByUserUserId(userId).stream()
+                .map(PostLikes::getPost)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Post> getSavedPostsByUser (int userId) {
+        return postSavesRepository.findByUserUserId(userId).stream()
+                .map(PostSaves::getPost)
+                .collect(Collectors.toList());
     }
 }
