@@ -73,8 +73,8 @@ export const CreatePostContainer = styled(Box)(() => ({
     display: 'flex', 
     alignItems: 'center', 
     justifyContent: 'center', 
-    width: '45%', 
-    margin: '70px auto 0 auto', 
+    width: '55%', 
+    margin: '70px auto 0 200px', 
     borderRadius: '8px', 
 }));
 
@@ -93,4 +93,57 @@ export const StyledTextField = styled(TextField)(() => ({
             borderColor: 'transparent',
         },
     },
+}));
+
+/* ----------------- Post ------------------ */
+
+export const PostContainer = styled(Box)(() => ({
+    border: '1px solid #DDD', 
+    borderRadius: '10px', 
+    overflow: 'hidden', 
+    margin: '70px auto 16px 280px', 
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
+    backgroundColor: '#FFF', 
+    width: '45%', 
+}));
+
+export const PostHeader = styled(Box)(() => ({
+    display: 'flex', 
+    alignItems: 'center', 
+    padding: '10px', 
+    borderBottom: '1px solid #DDD', 
+}));
+
+export const PostImage = styled('img')(() => ({
+    width: '100%', 
+    height: 'auto', 
+    objectFit: 'cover', 
+}));
+
+export const PostContent = styled(Box)(() => ({
+    padding: '10px', 
+}));
+
+export const PostActions = styled(Box)(() => ({
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    padding: '10px', 
+    borderTop: '1px solid #DDD', 
+}));
+
+export const ActionsContainer = styled(Box)(() => ({
+    display: 'flex', 
+    alignItems: 'center', 
+}));
+
+/* ---------------- Feed ----------------- */
+
+export const FeedContainer = styled(Box)(() => ({
+    marginTop: '50px', 
+    marginRight: '240px', 
+    width: `calc(100vw - 580px)`, 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    gap: '16px', 
 }));
