@@ -1,5 +1,7 @@
 package com.example.pet.parent.service.impl;
 
+import com.example.pet.parent.dto.PostDTO;
+import com.example.pet.parent.dto.UserDTO;
 import com.example.pet.parent.model.*;
 import com.example.pet.parent.repository.PostLikesRepository;
 import com.example.pet.parent.repository.PostRepository;
@@ -8,6 +10,7 @@ import com.example.pet.parent.repository.UsersRepository;
 import com.example.pet.parent.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,8 +46,27 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> getAllPosts(Pageable pageable) {
-        return postRepository.findAll(pageable);
+    public Page<PostDTO> getAllPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        List<PostDTO> postDTOS = posts.stream().map(post -> {
+            PostDTO postDTO = new PostDTO();
+            postDTO.setPostId(post.getPostId());
+            postDTO.setContent(post.getContent());
+            postDTO.setImageUrl(post.getImageUrl());
+            postDTO.setLikeCount(postRepository.countLikesByPostId(post.getPostId()));
+            postDTO.setCommentCount(postRepository.countCommentsByPostId(post.getPostId()));
+            postDTO.setSavesCount(postRepository.countSavesByPostId(post.getPostId()));
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUserId(post.getUsers().getUserId());
+            userDTO.setUsername(post.getUsers().getUsername());
+            userDTO.setEmail(post.getUsers().getEmail());
+            userDTO.setPassword(post.getUsers().getPassword());
+            userDTO.setProfilePicture(post.getUsers().getProfilePicture());
+            userDTO.setBio(post.getUsers().getBio());
+            postDTO.setUser(userDTO);
+            return postDTO;
+        }).collect(Collectors.toList());
+        return new PageImpl<>(postDTOS, pageable, posts.getTotalElements());
     }
 
     @Override

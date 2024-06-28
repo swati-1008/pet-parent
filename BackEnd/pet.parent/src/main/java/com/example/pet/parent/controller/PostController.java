@@ -1,5 +1,6 @@
 package com.example.pet.parent.controller;
 
+import com.example.pet.parent.dto.PostDTO;
 import com.example.pet.parent.model.Post;
 import com.example.pet.parent.request.Post.ActionRequest;
 import com.example.pet.parent.request.Post.PostPageRequest;
@@ -29,7 +30,7 @@ public class PostController {
     }
 
     @PostMapping("/all/page")
-    public Page<Post> getAllPosts(@RequestBody PostPageRequest postPageRequest) {
+    public Page<PostDTO> getAllPosts(@RequestBody PostPageRequest postPageRequest) {
         Pageable pageable = PageRequest.of(postPageRequest.getPage(), postPageRequest.getLimit());
         return postService.getAllPosts(pageable);
     }
