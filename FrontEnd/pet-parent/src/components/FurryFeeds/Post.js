@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import * as S from './styles';
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import { Bookmark, BookmarkOutlined, ChatBubbleOutline, Favorite, FavoriteOutlined, Share } from "@mui/icons-material";
+import { Bookmark, BookmarkBorder, ChatBubbleOutline, Favorite, FavoriteBorder, Share } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLikedPostsByUser, fetchSavedPostsByUser, likePost, savePost, unlikePost, unsavePost } from "../../redux/actions/postActions";
+import { addComment, fetchComments } from "../../redux/actions/fetchCommentAction";
+import CommentsModal from "./CommentsModal";
 
 const Post = React.forwardRef(({ post }, ref) => {
-    console.log('post ', post);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const { likedPosts, savedPosts } = useSelector((state) => state.post);
@@ -15,6 +16,9 @@ const Post = React.forwardRef(({ post }, ref) => {
     const [isSavedByUser, setIsSavedByUser] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likeCount);
     const [savesCount, setSavesCount] = useState(post.savesCount);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+    const [showCommentInput, setCommentShowInput] = useState(false);
+    const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
         dispatch(fetchLikedPostsByUser(user.userId));
@@ -29,7 +33,7 @@ const Post = React.forwardRef(({ post }, ref) => {
         setIsSavedByUser(savedPosts.some((savedPost) => savedPost.postId === post.postId));
     }, [savedPosts, post.postId]);
 
-    const { users, createAt, imageUrl, content, commentCount } = post;
+    const { createAt, imageUrl, content, commentCount } = post;
 
 
     const handleLike = () => {
@@ -58,12 +62,29 @@ const Post = React.forwardRef(({ post }, ref) => {
         }
     };
 
+    const handleOpenComments = () => {
+        dispatch(fetchComments(post.postId));
+        setIsCommentModalOpen(true);
+    }
+
+    const handleCloseComments = () => {
+        setIsCommentModalOpen(false);
+    }
+
+    const handleAddComment = () => {
+        if (newComment.trim()) {
+            dispatch(addComment(post.postId, user.userId, newComment.trim()));
+            setNewComment('');
+            setCommentShowInput(false);
+        }
+    }
+
     return (
         <S.PostContainer ref = { ref }>
             <S.PostHeader>
-                <Avatar src = { users.profilePicture } alt = 'User DP' />
+                <Avatar src = { post.user.profilePicture } alt = 'User DP' />
                 <Box ml = { 2 }>
-                    <Typography variant = 'subtitle1'>{ users.username }</Typography>
+                    <Typography variant = 'subtitle1'>{ post.user.username }</Typography>
                     <Typography variant = 'caption' color = 'text.secondary'>{ new Date(createAt).toLocaleString() }</Typography>
                 </Box>
             </S.PostHeader>
@@ -76,7 +97,7 @@ const Post = React.forwardRef(({ post }, ref) => {
             <S.PostActions>
                 <S.ActionsContainer>
                     <IconButton onClick = { handleLike }>
-                        { isLikedByUser ? <Favorite style = {{ color: 'red' }} /> : <FavoriteOutlined /> }
+                        { isLikedByUser ? <Favorite style = {{ color: 'red' }} /> : <FavoriteBorder /> }
                     </IconButton>
                     <Typography variant = 'body2'>{ likeCount }</Typography>
                 </S.ActionsContainer>
@@ -88,7 +109,7 @@ const Post = React.forwardRef(({ post }, ref) => {
                 </S.ActionsContainer>
                 <S.ActionsContainer>
                     <IconButton onClick = { handleSave }>
-                        { isSavedByUser ? <Bookmark /> : <BookmarkOutlined /> }
+                        { isSavedByUser ? <Bookmark style = {{ color: 'black' }} /> : <BookmarkBorder /> }
                     </IconButton>
                     <Typography variant = 'body2'>{ savesCount }</Typography>
                 </S.ActionsContainer>
@@ -98,6 +119,37 @@ const Post = React.forwardRef(({ post }, ref) => {
                     </IconButton>
                 </S.ActionsContainer>
             </S.PostActions>
+            <Box>
+                { commentCount > 0 && (
+                    <S.CommentLinks onClick = { handleOpenComments }>
+                        View all { commentCount } Comments
+                    </S.CommentLinks>
+                ) }
+                { !showCommentInput ? (
+                    <S.CommentLinks onClick = { () => setCommentShowInput(true) }>
+                        Add a Comment...
+                    </S.CommentLinks>
+                ) : (
+                    <S.PostAddCommentContainer>
+                        <S.StyledTextField 
+                            type = 'text'
+                            value = { newComment }
+                            onChange = { (e) => setNewComment(e.target.value) }
+                            placeholder = 'Add a Comment...'
+                            fullWidth
+                            variant = 'outlined'
+                            size = 'small'
+                            onKeyDown = { (e) => e.key === 'Enter' && handleAddComment() }
+                        />
+                        { newComment.trim() && (
+                            <S.AddCommentButton onClick = { handleAddComment }>
+                                Post
+                            </S.AddCommentButton>
+                        ) }
+                    </S.PostAddCommentContainer>
+                ) }
+            </Box>
+            { isCommentModalOpen && <CommentsModal post = { post } onClose = { handleCloseComments } /> }
         </S.PostContainer>
     )
 });

@@ -1,4 +1,4 @@
-import { Avatar, Box, Drawer, ListItem, ListItemButton, ListItemText, TextField } from "@mui/material";
+import { Avatar, Box, Button, Drawer, IconButton, ListItem, ListItemButton, ListItemText, Modal, TextField } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 /* ------------- General -------------- */
@@ -136,6 +136,13 @@ export const ActionsContainer = styled(Box)(() => ({
     alignItems: 'center', 
 }));
 
+export const PostAddCommentContainer = styled('div')(() => ({
+    display: 'flex', 
+    alignItems: 'center', 
+    gap: '10px', 
+    margin: '3px 0', 
+}));
+
 /* ---------------- Feed ----------------- */
 
 export const FeedContainer = styled(Box)(() => ({
@@ -146,4 +153,106 @@ export const FeedContainer = styled(Box)(() => ({
     flexDirection: 'column', 
     alignItems: 'center', 
     gap: '16px', 
+}));
+
+/* -------------- Comments ----------------- */
+
+export const CommentModal = styled(Modal)(() => ({
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+}));
+
+export const CommentPaper = styled('div')(() => ({
+    backgroundColor: '#FFF', 
+    boxShadow: 5, 
+    padding: '16px 32px 24px', 
+    display: 'flex', 
+    flexDirection: 'row', 
+    width: '80%', 
+    height: '80%', 
+}));
+
+export const CloseButton = styled(IconButton)(() => ({
+    cursor: 'pointer', 
+    position: 'absolute', 
+    top: '8px', 
+    right: '8px', 
+}));
+
+export const CommentLeftModal = styled('div')(() => ({
+    width: '50%', 
+    padding: '16px', 
+    borderRight: '1px solid #CCC', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    justifyContent: 'center', 
+    textAlign: 'justify', 
+}));
+
+export const CommentRightModal = styled('div')(() => ({
+    width: '50%', 
+    padding: '16px', 
+    display: 'flex', 
+    flexDirection: 'column', 
+    position: 'relative', 
+    overflow: 'hidden', 
+}));
+
+export const ModalHeader = styled(Box)(() => ({
+    display: 'flex', 
+    alignItems: 'center', 
+    padding: '10px', 
+    borderBottom: '1px solid #DDD', 
+}));
+
+export const CommentInputContainer = styled('div')(() => ({
+    display: 'flex', 
+    alignItems: 'center', 
+    borderTop: '1px solid #CCC', 
+    paddingTop: '8px', 
+    position: 'absolute', 
+    bottom: 0, 
+    width: '97%', 
+}));
+
+export const CommentsList = styled('div')(() => ({
+    flexGrow: 1, 
+    overflowY: 'auto', 
+    marginBottom: '50px', 
+}));
+
+export const Comment = styled('div')(() => ({
+    display: 'flex', 
+    marginTop: '30px', 
+    marginBottom: '10px', 
+    marginLeft: '10px', 
+}));
+
+export const CommentInput = styled(TextField)(() => ({
+    flexGrow: 1, 
+    border: 'none', 
+    outline: 'none', 
+    padding: '8px', 
+}));
+
+export const AddCommentButton = styled(Button)(() => ({
+    marginLeft: '8px', 
+    fontWeight: 'bold', 
+    cursor: 'pointer', 
+    padding: '8px 16px', 
+    borderRadius: '4px', 
+}));
+
+export const CommentLinks = styled('span')(() => ({
+    cursor: 'pointer', 
+    color: 'gray', 
+    fontWeight: 'bold', 
+    display: 'block', 
+    marginBottom: '10px', 
+    marginLeft: '10px', 
+    fontSize: '14px', 
+    '&:hover': {
+        textDecoration: 'underline', 
+    }, 
 }));

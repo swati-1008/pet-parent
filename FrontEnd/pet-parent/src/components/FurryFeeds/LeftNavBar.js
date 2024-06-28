@@ -39,3 +39,6 @@ const LeftNavBar = () => {
 };
 
 export default LeftNavBar;
+
+// TODO: 
+// 1. Add Link to all menus
