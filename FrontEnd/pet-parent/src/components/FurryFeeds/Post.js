@@ -17,6 +17,7 @@ const Post = React.forwardRef(({ post }, ref) => {
     const [isLikedByUser, setIsLikedByUser] = useState(false);
     const [isSavedByUser, setIsSavedByUser] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likeCount);
+    const [commentCount, setCommentCount] = useState(post.commentCount);
     const [savesCount, setSavesCount] = useState(post.savesCount);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [showCommentInput, setCommentShowInput] = useState(false);
@@ -38,7 +39,7 @@ const Post = React.forwardRef(({ post }, ref) => {
         setIsSavedByUser(savedPosts.some((savedPost) => savedPost.postId === post.postId));
     }, [savedPosts, post.postId]);
 
-    const { createAt, imageUrl, content, commentCount } = post;
+    const { createAt, imageUrl, content } = post;
 
 
     const handleLike = () => {
@@ -81,6 +82,7 @@ const Post = React.forwardRef(({ post }, ref) => {
             dispatch(addComment(post.postId, user.userId, newComment.trim()));
             setNewComment('');
             setCommentShowInput(false);
+            setCommentCount(commentCount + 1);
         }
     }
 
