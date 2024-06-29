@@ -26,7 +26,7 @@ const CommentsModal = ({ post, onClose }) => {
         >
             <S.CommentPaper>
                 <S.CloseButton onClick = { onClose }>
-                    <Close />
+                    <Close style = {{ color: 'white', fontSize: 'xx-large' }} />
                 </S.CloseButton>
                 <S.CommentLeftModal>
                     { post.imageUrl && <S.PostImage src = { post.imageUrl } alt = 'Post' /> }
@@ -73,4 +73,3 @@ export default CommentsModal;
 
 // TODO: 
 // 1. Add an Emoji Selector 
-// 4. Modal close button
