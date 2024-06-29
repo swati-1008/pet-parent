@@ -106,6 +106,10 @@ const Post = React.forwardRef(({ post }, ref) => {
         }
     }, [showEmojiPicker]);
 
+    const updateCommentCount = () => {
+        setCommentCount(commentCount + 1);
+    }
+
     return (
         <S.PostContainer ref = { ref }>
             <S.PostHeader>
@@ -184,7 +188,7 @@ const Post = React.forwardRef(({ post }, ref) => {
                     </S.PostAddCommentContainer>
                 ) }
             </Box>
-            { isCommentModalOpen && <CommentsModal post = { post } onClose = { handleCloseComments } /> }
+            { isCommentModalOpen && <CommentsModal post = { post } onClose = { handleCloseComments } updateCommentCount = { updateCommentCount } /> }
         </S.PostContainer>
     )
 });

@@ -7,7 +7,7 @@ import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
-const CommentsModal = ({ post, onClose }) => {
+const CommentsModal = ({ post, onClose, updateCommentCount }) => {
     const dispatch = useDispatch();
     const comments = useSelector((state) => state.comments.comments);
     const user = useSelector((state) => state.auth.user);
@@ -21,6 +21,7 @@ const CommentsModal = ({ post, onClose }) => {
         if (newComment.trim()) {
             dispatch(addComment(post.postId, user.userId, newComment.trim()));
             setNewComment('');
+            updateCommentCount();
         }
     }
 
