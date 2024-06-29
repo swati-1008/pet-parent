@@ -141,6 +141,14 @@ export const PostAddCommentContainer = styled('div')(() => ({
     alignItems: 'center', 
     gap: '10px', 
     margin: '3px 0', 
+    position: 'relative', 
+}));
+
+export const EmojiPickerContainer = styled(Box)(() => ({
+    zIndex: 999,
+    position: 'absolute', 
+    bottom: '10px', 
+    left: '50px', 
 }));
 
 /* ---------------- Feed ----------------- */

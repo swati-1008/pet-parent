@@ -1,9 +1,11 @@
-import React, {useState } from "react";
+import React, {useRef, useState, useEffect } from "react";
 import * as S from './styles';
 import { useDispatch, useSelector } from "react-redux";
 import { addComment } from "../../redux/actions/fetchCommentAction";
-import { Close } from "@mui/icons-material";
-import { Avatar, Box, Typography } from "@mui/material";
+import { Close, EmojiEmotions } from "@mui/icons-material";
+import { Avatar, Box, IconButton, Typography } from "@mui/material";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 const CommentsModal = ({ post, onClose }) => {
     const dispatch = useDispatch();
@@ -11,6 +13,9 @@ const CommentsModal = ({ post, onClose }) => {
     const user = useSelector((state) => state.auth.user);
 
     const [newComment, setNewComment] = useState('');
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+    const emojiPickerRef = useRef(null);
 
     const handleAddComment = () => {
         if (newComment.trim()) {
@@ -18,6 +23,26 @@ const CommentsModal = ({ post, onClose }) => {
             setNewComment('');
         }
     }
+
+    const handleEmojiSelect = (emoji) => {
+        setNewComment((prev) => prev + emoji.native);
+        setShowEmojiPicker(false);
+    }
+
+    const handleCloseEmojiPicker = (event) => {
+        if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target))
+            setShowEmojiPicker(false);
+    };
+
+    useEffect(() => {
+        if (showEmojiPicker)
+            document.addEventListener('mousedown', handleCloseEmojiPicker);
+        else
+            document.removeEventListener('mousedown', handleCloseEmojiPicker);
+        return () => {
+            document.removeEventListener('mousedown', handleCloseEmojiPicker);
+        }
+    }, [showEmojiPicker]);
 
     return (
         <S.CommentModal 
@@ -50,6 +75,14 @@ const CommentsModal = ({ post, onClose }) => {
                         )) }
                     </S.CommentsList>
                     <S.CommentInputContainer>
+                        <IconButton onClick = { () => setShowEmojiPicker(!showEmojiPicker) }>
+                            <EmojiEmotions />
+                        </IconButton>
+                        { showEmojiPicker && (
+                            <S.EmojiPickerContainer ref = { emojiPickerRef }>
+                                <Picker data = { data } onEmojiSelect = { handleEmojiSelect } />
+                            </S.EmojiPickerContainer>
+                        ) }
                         <S.StyledTextField
                             type = 'text'
                             value = { newComment }
@@ -70,6 +103,3 @@ const CommentsModal = ({ post, onClose }) => {
 };
 
 export default CommentsModal;
-
-// TODO: 
-// 1. Add an Emoji Selector 

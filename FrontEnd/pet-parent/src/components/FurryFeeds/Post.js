@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as S from './styles';
 import { Avatar, Box, IconButton, Typography } from "@mui/material";
-import { Bookmark, BookmarkBorder, ChatBubbleOutline, Favorite, FavoriteBorder, Share } from "@mui/icons-material";
+import { Bookmark, BookmarkBorder, ChatBubbleOutline, EmojiEmotions, Favorite, FavoriteBorder, Share } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLikedPostsByUser, fetchSavedPostsByUser, likePost, savePost, unlikePost, unsavePost } from "../../redux/actions/postActions";
 import { addComment, fetchComments } from "../../redux/actions/fetchCommentAction";
 import CommentsModal from "./CommentsModal";
+import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
 
 const Post = React.forwardRef(({ post }, ref) => {
     const dispatch = useDispatch();
@@ -19,6 +21,9 @@ const Post = React.forwardRef(({ post }, ref) => {
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [showCommentInput, setCommentShowInput] = useState(false);
     const [newComment, setNewComment] = useState('');
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+    const emojiPickerRef = useRef(null);
 
     useEffect(() => {
         dispatch(fetchLikedPostsByUser(user.userId));
@@ -78,6 +83,26 @@ const Post = React.forwardRef(({ post }, ref) => {
             setCommentShowInput(false);
         }
     }
+
+    const handleEmojiSelect = (emoji) => {
+        setNewComment((prev) => prev + emoji.native);
+        setShowEmojiPicker(false);
+    }
+
+    const handleCloseEmojiPicker = (event) => {
+        if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target))
+            setShowEmojiPicker(false);
+    };
+
+    useEffect(() => {
+        if (showEmojiPicker)
+            document.addEventListener('mousedown', handleCloseEmojiPicker);
+        else
+            document.removeEventListener('mousedown', handleCloseEmojiPicker);
+        return () => {
+            document.removeEventListener('mousedown', handleCloseEmojiPicker);
+        }
+    }, [showEmojiPicker]);
 
     return (
         <S.PostContainer ref = { ref }>
@@ -145,6 +170,14 @@ const Post = React.forwardRef(({ post }, ref) => {
                             <S.AddCommentButton onClick = { handleAddComment }>
                                 Post
                             </S.AddCommentButton>
+                        ) }
+                        <IconButton onClick = { () => setShowEmojiPicker(!showEmojiPicker) }>
+                            <EmojiEmotions />
+                        </IconButton>
+                        { showEmojiPicker && (
+                            <S.EmojiPickerContainer ref = { emojiPickerRef }>
+                                <Picker data = { data } onEmojiSelect = { handleEmojiSelect } />
+                            </S.EmojiPickerContainer>
                         ) }
                     </S.PostAddCommentContainer>
                 ) }
