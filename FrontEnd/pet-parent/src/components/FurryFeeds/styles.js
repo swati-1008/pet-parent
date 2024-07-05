@@ -314,15 +314,20 @@ export const ReelUsername = styled('div')(() => ({
     fontSize: '12px', 
 }));
 
-export const StoryContent = styled('div')(({ media }) => ({
+export const StoryContent = styled('div')(() => ({
     display: 'flex', 
     justifyContent: 'center', 
     alignItems: 'center', 
     width: '100%', 
     height: '100%', 
-    backgroundImage: `url(${media})`, 
-    backgroundSize: 'cover', 
-    backgroundPosition: 'center', 
+}));
+
+export const StoryImage = styled('img')(() => ({
+    maxWidth: '100%', 
+    maxHeight: '100%', 
+    width: 900, 
+    height: 700, 
+    objectFit: 'cover', 
 }));
 
 export const ReelModalBox = styled(Box)(() => ({

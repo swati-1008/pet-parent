@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from './styles';
-import reels from "./reelsList";
 import { Modal } from "@mui/material";
 import ReactInstaStories from "react-insta-stories";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReels } from "../../redux/actions/reelAction";
 
 const Reels = () => {
+    const dispatch = useDispatch();
+
+    const reels = useSelector((state) => state.reels.reels);
+
     const [selectedReel, setSelectedReel] = useState(null);
 
     const handleReelClick = (reel) => {
@@ -15,11 +20,29 @@ const Reels = () => {
         setSelectedReel(null);
     }
 
+    useEffect(() => {
+        dispatch(fetchReels(dispatch))
+    }, [dispatch]);
+
     const stories = selectedReel?.media.map((media) => ({
         content: ({ action }) => (
-            <S.StoryContent media = { media } onClick = { action('next') } />
-        ), 
+            <S.StoryContent>
+                <S.StoryImage 
+                    src = { media } 
+                    alt = 'Story Content' 
+                    onClick = { () => action('next') } 
+                />
+            </S.StoryContent>
+        ),
     }));
+
+    const storyContentStyles = {
+        width: '100%', 
+        height: '100%', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+    };
 
     return (
         <S.ReelsContainer>
@@ -44,6 +67,7 @@ const Reels = () => {
                             width = { 900 }
                             height = { 700 }
                             onAllStoriesEnd = { handleCloseModal }
+                            storyContentStyles = { storyContentStyles }
                         />
                     </S.ReelModalBox>
                 </Modal>

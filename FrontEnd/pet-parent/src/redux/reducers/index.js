@@ -5,6 +5,7 @@ import peopleYouMayKnowReducer from './peopleYouMayKnowReducer';
 import { createPostReducer } from './createPostReducer';
 import { postReducer } from './postReducer';
 import { fetchCommentReducer } from './fetchCommentReducer';
+import { reelReducer } from './reelReducer';
 
 const rootReducer = combineReducers({
     auth: authReducer, 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     createPost: createPostReducer, 
     post: postReducer, 
     comments: fetchCommentReducer, 
+    reels: reelReducer, 
 });
 
 export default rootReducer;
