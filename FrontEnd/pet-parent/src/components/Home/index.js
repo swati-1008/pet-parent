@@ -35,6 +35,3 @@ const Home = () => {
 }
 
 export default Home;
-
-// TODO: 
-// 1. Better logo

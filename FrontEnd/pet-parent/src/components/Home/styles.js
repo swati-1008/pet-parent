@@ -10,8 +10,11 @@ export const StyledHeader = styled('header')(() => ({
 }));
 
 export const StyledLogo = styled('img')(() => ({
-    height: '50px', 
-    marginRight: '200px', 
+    height: '120px', 
+    width: '200px', 
+    marginRight: '150px', 
+    paddingLeft: '50px', 
+    transform: 'scale(1.6)', 
 }));
 
 export const StyledNavigation = styled('nav')(() => ({
