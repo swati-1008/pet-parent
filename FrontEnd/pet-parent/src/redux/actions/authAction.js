@@ -6,9 +6,9 @@ export const CHECK_USERNAME_SUCCESS = 'CHECK_USERNAME_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT = 'LOGOUT';
 
-export const loginSuccess = (user) => ({
+export const loginSuccess = (token, user) => ({
     type: LOGIN_SUCCESS, 
-    payload: user, 
+    payload: { token, user }, 
 });
 
 export const signUpSuccess = () => ({
@@ -32,8 +32,9 @@ export const authError = (error) => ({
 export const login = (credentials) => async (dispatch) => {
     try {
         const response = await axiosInstance.post('/user/login', credentials);
-        if (response.data) {
-            dispatch(loginSuccess(response.data))
+        if (response.data.token && response.data.user) {
+            localStorage.setItem('token', response.data.token);
+            dispatch(loginSuccess(response.data.token, response.data.user))
             return Promise.resolve();
         }
         else {

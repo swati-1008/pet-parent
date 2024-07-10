@@ -1,21 +1,21 @@
 import { LOGIN_SUCCESS, SIGNUP_SUCCESS, CHECK_USERNAME_SUCCESS, AUTH_ERROR, LOGOUT } from '../actions/authAction';
 
 export const initialState = {
-    isAuthenticated: !!localStorage.getItem('user'), 
+    isAuthenticated: !!localStorage.getItem('token'), 
     usernameExists: false, 
     error: null, 
-    user: JSON.parse(localStorage.getItem('user')) || null, 
+    user: null, 
 };
 
 const authReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOGIN_SUCCESS: 
-            localStorage.setItem('user', JSON.stringify(action.payload));
+            localStorage.setItem('token', action.payload.token);
             return {
                 ...state, 
                 isAuthenticated: true, 
                 error: null, 
-                user: action.payload, 
+                user: action.payload.user, 
             };
         case SIGNUP_SUCCESS: 
             return {
@@ -35,7 +35,7 @@ const authReducer = (state = initialState, action) => {
                 error: action.payload, 
             };
         case LOGOUT: 
-            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             return {
                 ...state, 
                 isAuthenticated: false, 
