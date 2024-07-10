@@ -5,8 +5,14 @@ import com.example.pet.parent.request.Users.UserEditRequest;
 import com.example.pet.parent.request.Users.UserIdRequest;
 import com.example.pet.parent.request.Users.UserLoginRequest;
 import com.example.pet.parent.service.UsersService;
+import com.example.pet.parent.util.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +24,15 @@ import java.util.Optional;
 public class UsersController {
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/all")
     public List<Users> getAllUsers() {
@@ -52,15 +67,26 @@ public class UsersController {
         existingUser = usersService.findByEmail(user.getEmail());
         if (existingUser.isPresent())
             return ResponseEntity.badRequest().body("Email is already registered");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Users newUser = usersService.createUser(user);
-        return ResponseEntity.ok(newUser);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(Map.of("token", token, "user", newUser));
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login (@RequestBody UserLoginRequest userLoginRequest) {
-        Optional<Users> optionalUser = usersService.login(userLoginRequest.getUsername(), userLoginRequest.getPassword());
-        if (optionalUser.isPresent())
-            return ResponseEntity.ok(optionalUser.get());
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenProvider.generateToken(authentication);
+        Optional<Users> optionalUser = usersService.findByUsername(userLoginRequest.getUsername());
+        if (optionalUser.isPresent()) {
+            return ResponseEntity.ok(Map.of("token", token, "user", optionalUser.get()));
+        }
         else
             return ResponseEntity.status(401).body("Invalid Credentials");
     }
