@@ -74,5 +74,5 @@ const SearchBar = () => {
 export default SearchBar;
 
 
-// TODO: 
+// Future Scope (TODO:): 
 // 1. Save user searches and get trending suggestions dynamically, based on what was searched most

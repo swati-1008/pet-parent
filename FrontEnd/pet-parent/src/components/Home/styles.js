@@ -169,7 +169,7 @@ export const BlogCard = styled(Paper)(() => ({
     '&:hover': {
         transform: 'scale(1.05)', 
     }, 
-    minHeight: '180px', 
+    minHeight: '380px', 
 }));
 
 export const BlogImage = styled('img')(() => ({
@@ -187,6 +187,11 @@ export const BlogTitle = styled(Typography)(() => ({
 
 export const BlogDescription = styled(Typography)(() => ({
     marginBottom: '16px', 
+    overflow: 'hidden', 
+    textOverflow: 'ellipsis', 
+    display: '-webkit-box', 
+    WebkitLineClamp: 3, 
+    WebkitBoxOrient: 'vertical', 
 }));
 
 export const BlogAuthor = styled(Typography)(() => ({
