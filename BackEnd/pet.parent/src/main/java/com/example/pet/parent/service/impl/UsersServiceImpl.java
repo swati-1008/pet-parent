@@ -15,12 +15,10 @@ import java.util.Optional;
 @Service
 public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsersServiceImpl (UsersRepository usersRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UsersServiceImpl (UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Autowired
@@ -38,7 +36,6 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users createUser(Users user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return usersRepository.save(user);
     }
 
@@ -49,8 +46,6 @@ public class UsersServiceImpl implements UsersService {
             Users tempUser = currentUser.get();
             tempUser.setUsername(user.getUsername());
             tempUser.setEmail(user.getEmail());
-            if (!Objects.equals(tempUser.getPassword(), user.getPassword()))
-                tempUser.setPassword(passwordEncoder.encode(user.getPassword()));
             return usersRepository.save(tempUser);
         }
         else {
@@ -78,7 +73,6 @@ public class UsersServiceImpl implements UsersService {
         Optional<Users> optionalUser = usersRepository.findByUsername((username));
         if (optionalUser.isPresent()) {
             Users user = optionalUser.get();
-            if (passwordEncoder.matches(password, user.getPassword()))
                 return Optional.of(user);
         }
         return Optional.empty();
