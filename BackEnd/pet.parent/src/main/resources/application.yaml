@@ -1,0 +1,23 @@
+spring:
+  application:
+    # Set the name of the application -> useful for logging and management
+    name: pet.parent
+  datasource:
+    # JDBC driver class name for PostgreSQL
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/social_media
+    username: newuser
+    password: password
+  jpa:
+    # Specifies the database platform to be used by JPA
+    database: POSTGRESQL
+    properties:
+      hibernate:
+        # Sets the Hibernate dialect, which helps Hibernate generate appropriate SQL for the database
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        generate_statistics: true
+    show-sql: true
+
+jwt:
+  secret: 094xAXQZVlHbsCxTS/p6ugKBHhnyPb1+mw7p9FU7B9Q=
+  expiration: 86400000

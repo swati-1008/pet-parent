@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,18 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private int jwtExpiration;
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private Key key;
+
+    /**
+     * Ensure to run this function after dependency injection is complete
+     * i.e., when the bean's properties have been set but before the bean is used
+     */
+    @PostConstruct
+    public void init () {
+        if (jwtSecret == null || jwtSecret.isEmpty())
+            throw new IllegalArgumentException("JWT secret cannot be null");
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    }
 
     public String generateToken (Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -30,7 +42,7 @@ public class JwtTokenProvider {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -48,10 +60,7 @@ public class JwtTokenProvider {
     }
 
     private Claims getAllClaimsFromToken (String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(token)
-                .getBody();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired (String token) {
