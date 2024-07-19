@@ -3,6 +3,7 @@ package com.example.pet.parent.controller;
 import com.example.pet.parent.model.Users;
 import com.example.pet.parent.request.Users.UserEditRequest;
 import com.example.pet.parent.request.Users.UserIdRequest;
+import com.example.pet.parent.request.Users.UsernameRequest;
 import com.example.pet.parent.request.Users.UserLoginRequest;
 import com.example.pet.parent.service.UsersService;
 import com.example.pet.parent.util.JwtTokenProvider;
@@ -47,6 +48,11 @@ public class UsersController {
     @PostMapping("/get")
     public Optional<Users> getUserById(@RequestBody UserIdRequest userGetRequest) {
         return usersService.getUserById(userGetRequest.getUserId());
+    }
+
+    @PostMapping("/getByName")
+    public Optional<Users> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
+        return usersService.findByUsername(usernameRequest.getUsername());
     }
 
     @PostMapping("/create")
