@@ -56,6 +56,7 @@ public class PostServiceImpl implements PostService {
             postDTO.setLikeCount(postRepository.countLikesByPostId(post.getPostId()));
             postDTO.setCommentCount(postRepository.countCommentsByPostId(post.getPostId()));
             postDTO.setSavesCount(postRepository.countSavesByPostId(post.getPostId()));
+            postDTO.setCreatedAt(post.getCreatedAt());
             UserDTO userDTO = new UserDTO();
             userDTO.setUserId(post.getUsers().getUserId());
             userDTO.setUsername(post.getUsers().getUsername());

@@ -3,6 +3,8 @@ package com.example.pet.parent.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -27,6 +29,9 @@ public class Post {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @Column(name = "created_at", updatable = false, insertable = false)
+    private LocalDateTime createdAt;
 
     @Transient
     private Long likeCount;
