@@ -8,6 +8,7 @@ import { addComment, fetchComments } from "../../redux/actions/fetchCommentActio
 import CommentsModal from "./CommentsModal";
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
+import moment from "moment";
 
 const Post = React.forwardRef(({ post }, ref) => {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const Post = React.forwardRef(({ post }, ref) => {
         setIsSavedByUser(savedPosts.some((savedPost) => savedPost.postId === post.postId));
     }, [savedPosts, post.postId]);
 
-    const { createAt, imageUrl, content } = post;
+    const { createdAt, imageUrl, content } = post;
 
 
     const handleLike = () => {
@@ -116,7 +117,7 @@ const Post = React.forwardRef(({ post }, ref) => {
                 <Avatar src = { post.user.profilePicture } alt = 'User DP' />
                 <Box ml = { 2 }>
                     <Typography variant = 'subtitle1'>{ post.user.username }</Typography>
-                    <Typography variant = 'caption' color = 'text.secondary'>{ new Date(createAt).toLocaleString() }</Typography>
+                    <Typography variant = 'caption' color = 'text.secondary'>{ moment(createdAt).fromNow() }</Typography>
                 </Box>
             </S.PostHeader>
             { imageUrl && (
@@ -194,6 +195,3 @@ const Post = React.forwardRef(({ post }, ref) => {
 });
 
 export default Post;
-
-// TODO: 
-// 1. Do something about post createdAt
