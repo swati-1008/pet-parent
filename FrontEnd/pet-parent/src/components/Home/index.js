@@ -18,7 +18,7 @@ const Home = () => {
                     <S.NavLink href = '/retail-stores'>Pawmart</S.NavLink>
                     <S.NavLink href = '/chat-rooms'>Fur Talks</S.NavLink>
                     <S.NavLink href = '/vet-consultations'>PawDoc</S.NavLink>
-                    <S.NavLink href = '/social'>Furry Feeds</S.NavLink>
+                    <S.NavLink href = '/furry-feeds'>Furry Feeds</S.NavLink>
                     <S.NavLink href = '/blogs'>Tail Tales</S.NavLink>
                     <S.NavLink href = '/events'>FurFest</S.NavLink>
                 </S.StyledNavigation>

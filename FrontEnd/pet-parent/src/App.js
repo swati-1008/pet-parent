@@ -36,4 +36,4 @@ export default App;
 
 // TODO: 
 // 1. Do unit testing in both BE and FE
-// 2. Add Logout option
+// 3. Add Readme.MD
