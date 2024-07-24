@@ -76,3 +76,7 @@ Purrs n' Paws is a comprehensive platform for pet parents, offering a wide range
 POST /user/signup - Sign up a new user
 
 POST /user/login - Log in a user and receive a JWT token
+
+## Swagger API Documentation
+
+Access Swagger UI: http://localhost:8080/swagger-ui/index.html#/ 
