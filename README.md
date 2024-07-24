@@ -32,6 +32,7 @@ Purrs n' Paws is a comprehensive platform for pet parents, offering a wide range
    git clone https://github.com/your-username/your-repo-name.git
    cd your-repo-name/BackEnd
 2. Setup environment variables
+
    Update the `application.properties` file in src/main/resources directory and add your environment variables
    ```bash
    spring.datasource.url=jdbc:postgresql://localhost:5432/your_db
@@ -55,6 +56,7 @@ Purrs n' Paws is a comprehensive platform for pet parents, offering a wide range
    ```bash
    npm install
 3. Set up environment variables
+
    Create a .env file in the frontend directory and add your environment variables
    ```
    REACT_APP_API_BASE_URL=http://localhost:8080
@@ -62,14 +64,14 @@ Purrs n' Paws is a comprehensive platform for pet parents, offering a wide range
    ```
    npm start
 
-### Usage
+## Usage
 
 1. Open your browser and navigate to http://localhost:3000.
 2. Sign up or log in to access the application.
 3. Use the application features as intended.
 
-### API Endpoints 
+## API Endpoints 
 
-## Authentication
+### Authentication
 POST /user/signup - Sign up a new user
 POST /user/login - Log in a user and receive a JWT token
