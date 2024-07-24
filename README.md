@@ -74,4 +74,5 @@ Purrs n' Paws is a comprehensive platform for pet parents, offering a wide range
 
 ### Authentication
 POST /user/signup - Sign up a new user
+
 POST /user/login - Log in a user and receive a JWT token
