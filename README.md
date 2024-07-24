@@ -35,11 +35,17 @@ Purrs n' Paws is a comprehensive platform for pet parents, offering a wide range
 
    Update the `application.properties` file in src/main/resources directory and add your environment variables
    ```bash
-   spring.datasource.url=jdbc:postgresql://localhost:5432/your_db
-   spring.datasource.username=your_db_user
-   spring.datasource.password=your_db_password
-   spring.jpa.hibernate.ddl-auto=update
-   jwt.secret=your_jwt_secret
+   spring:
+     datasource:
+       url: jdbc:postgresql://localhost:5432/your_db
+       username: your_db_user
+       password: your_db_password
+     jpa:
+       hibernate:
+        ddl-auto: update
+   jwt:
+     secret: your_jwt_secret
+
 3. Build the project using Maven
    ```bash
    mvn clean install
