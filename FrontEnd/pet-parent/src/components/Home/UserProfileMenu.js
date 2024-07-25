@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import accountIcon from '../../assets/images/dp1.jpeg';
 import * as S from './styles';
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/authAction";
 
 const UserProfileMenu = () => {
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -12,6 +15,10 @@ const UserProfileMenu = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    }
+
+    const handleLogout = () => {
+        dispatch(logout());
     }
 
     return (
@@ -40,7 +47,7 @@ const UserProfileMenu = () => {
                     <Typography variant = 'inherit'>Notifications</Typography>
                 </MenuItem>
                 <MenuItem onClick = { handleClose }>
-                    <Typography variant = 'inherit'>Logout</Typography>
+                    <Typography variant = 'inherit' onClick = { handleLogout }>Logout</Typography>
                 </MenuItem>
             </Menu>
         </div>

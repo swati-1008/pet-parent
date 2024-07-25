@@ -3,13 +3,15 @@ package com.example.pet.parent.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "post")
 @Entity
+@Table(name = "post")
 
 public class Post {
 
@@ -24,4 +26,19 @@ public class Post {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Column(name = "created_at", updatable = false, insertable = false)
+    private LocalDateTime createdAt;
+
+    @Transient
+    private Long likeCount;
+
+    @Transient
+    private Long commentCount;
+
+    @Transient
+    private Long savesCount;
 }

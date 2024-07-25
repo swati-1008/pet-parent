@@ -1,12 +1,12 @@
 package com.example.pet.parent.controller;
 
 import com.example.pet.parent.model.Suggestions;
+import com.example.pet.parent.request.Suggestions.SuggestionsRequest;
 import com.example.pet.parent.service.SuggestionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/suggestions")
@@ -15,9 +15,8 @@ public class SuggestionsController {
     private SuggestionsService suggestionsService;
 
     @PostMapping ("/get")
-    public List<Suggestions> getSuggestions (@RequestBody Map<String, String> request) {
-        String query = request.get("query");
-        return suggestionsService.getSuggestions(query);
+    public List<Suggestions> getSuggestions (@RequestBody SuggestionsRequest suggestionsRequest) {
+        return suggestionsService.getSuggestions(suggestionsRequest.getQuery());
     }
 
     @PostMapping ("/trending")

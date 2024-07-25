@@ -1,9 +1,9 @@
-import { LOGIN_SUCCESS, SIGNUP_SUCCESS, CHECK_USERNAME_SUCCESS, AUTH_ERROR } from '../actions/authAction';
+import { LOGIN_SUCCESS, SIGNUP_SUCCESS, AUTH_ERROR, LOGOUT } from '../actions/authAction';
 
 export const initialState = {
-    isAuthenticated: false, 
-    usernameExists: false, 
+    isAuthenticated: !!localStorage.getItem('token'), 
     error: null, 
+    user: null, 
 };
 
 const authReducer = (state = initialState, action) => {
@@ -13,6 +13,7 @@ const authReducer = (state = initialState, action) => {
                 ...state, 
                 isAuthenticated: true, 
                 error: null, 
+                user: action.payload.user, 
             };
         case SIGNUP_SUCCESS: 
             return {
@@ -20,16 +21,17 @@ const authReducer = (state = initialState, action) => {
                 isAuthenticated: false, 
                 error: null, 
             };
-        case CHECK_USERNAME_SUCCESS: 
-            return {
-                ...state, 
-                usernameExists: action.payload, 
-                error: null, 
-            };
         case AUTH_ERROR: 
             return {
                 ...state, 
                 error: action.payload, 
+            };
+        case LOGOUT: 
+            localStorage.removeItem('token');
+            return {
+                ...state, 
+                isAuthenticated: false, 
+                user: null, 
             };
         default: return state;
     }

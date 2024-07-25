@@ -1,13 +1,13 @@
 package com.example.pet.parent.service.impl;
 
 import com.example.pet.parent.model.Users;
+import com.example.pet.parent.repository.FollowRepository;
 import com.example.pet.parent.repository.UsersRepository;
 import com.example.pet.parent.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,6 +18,9 @@ public class UsersServiceImpl implements UsersService {
     public UsersServiceImpl (UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
+
+    @Autowired
+    private FollowRepository followRepository;
 
     @Override
     public List<Users> getAllUsers() {
@@ -41,7 +44,6 @@ public class UsersServiceImpl implements UsersService {
             Users tempUser = currentUser.get();
             tempUser.setUsername(user.getUsername());
             tempUser.setEmail(user.getEmail());
-            tempUser.setPassword(user.getPassword());
             return usersRepository.save(tempUser);
         }
         else {
@@ -69,9 +71,14 @@ public class UsersServiceImpl implements UsersService {
         Optional<Users> optionalUser = usersRepository.findByUsername((username));
         if (optionalUser.isPresent()) {
             Users user = optionalUser.get();
-            if (Objects.equals(password, user.getPassword()))
-                return Optional.of(user);
+            return Optional.of(user);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Users> getPeopleYouMayKnow (int userId) {
+        List<Integer> suggestedUserIds = followRepository.findPeopleYouMayKnow(userId);
+        return usersRepository.findAllById(suggestedUserIds);
     }
 }

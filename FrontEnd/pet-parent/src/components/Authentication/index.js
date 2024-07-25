@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkUsername, login, signUp } from '../../redux/actions/authAction';
+import { login, signUp } from '../../redux/actions/authAction';
 import * as S from './styles';
 import backgroundImage from '../../assets/images/Authentication/background.png';
 import paw from '../../assets/images/Authentication/paw.png';
@@ -10,7 +10,8 @@ import { TextField, Button, Typography } from '@mui/material';
 const Authentication = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { error, usernameExists, isAuthenticated } = useSelector(state => state.auth);
+    const location = useLocation();
+    const { error, isAuthenticated } = useSelector(state => state.auth);
 
     const [formData, setFormData] = useState({
         username: '', 
@@ -22,14 +23,11 @@ const Authentication = () => {
     const [isSigningUp, setIsSigningUp] = useState(false);
 
     useEffect(() => {
-        if (formData.username)
-            dispatch(checkUsername(formData.username))
-    }, [formData.username, dispatch]);
-
-    useEffect(() => {
-        if (isAuthenticated)
-            navigate('/') 
-    }, [isAuthenticated, navigate]);
+        if (isAuthenticated) {
+            const from = location.state?.from || '/home';
+            navigate(from);
+        }
+    }, [isAuthenticated, navigate, location.state]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,10 +56,7 @@ const Authentication = () => {
                     alert('Passwords do not match');
             }
             else {
-                if (usernameExists)
-                    await dispatch(login({ username: formData.username, email: formData.email, password: formData.password }));
-                else 
-                    alert('Username does not exist. Please sign up');
+                await dispatch(login({ username: formData.username, email: formData.email, password: formData.password }));
             }
         }
         catch (err) {
@@ -103,7 +98,6 @@ const Authentication = () => {
                             fullWidth
                             value = { formData.username }
                             margin = 'normal'
-                            error = { isSigningUp && usernameExists }
                         />
                         { isSigningUp && (
                             <TextField 
@@ -184,8 +178,6 @@ export default Authentication;
 
 
 // TODO: 
-// 4. Password Encryption
-// 5. Show Sign In/Sign Up successful
+// 5. Show Sign Up successful
 // 6. Forgot Password
-// 7. Change /social to homepage -> Verify it works on signing in
-// 8. Should land on Authentication page, and then take to Landing page and so on
+// 8. If wrong password, should give error. not just console log it

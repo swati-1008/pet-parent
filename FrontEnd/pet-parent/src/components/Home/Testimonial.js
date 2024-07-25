@@ -103,6 +103,3 @@ const Testimonial = () => {
 };
 
 export default Testimonial;
-
-// TODO: 
-// 1. Get Testimonials from DB
