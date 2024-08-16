@@ -8,6 +8,7 @@ import com.example.pet.parent.request.Post.PostEditRequest;
 import com.example.pet.parent.request.Post.PostIdRequest;
 import com.example.pet.parent.request.Users.UserIdRequest;
 import com.example.pet.parent.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,9 +31,11 @@ public class PostController {
     }
 
     @PostMapping("/all/page")
-    public Page<PostDTO> getAllPosts(@RequestBody PostPageRequest postPageRequest) {
+    public ResponseEntity<Page<PostDTO>> getAllPosts(@RequestBody @Valid PostPageRequest postPageRequest) {
+        if (postPageRequest.getPage() < 0 || postPageRequest.getLimit() < 1)
+            return ResponseEntity.badRequest().build();
         Pageable pageable = PageRequest.of(postPageRequest.getPage(), postPageRequest.getLimit());
-        return postService.getAllPosts(pageable);
+        return ResponseEntity.ok(postService.getAllPosts(pageable));
     }
 
     @PostMapping("/get")

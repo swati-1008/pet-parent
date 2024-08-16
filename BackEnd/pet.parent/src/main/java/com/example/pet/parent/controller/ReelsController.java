@@ -25,9 +25,11 @@ public class ReelsController {
 
     @PostMapping("/all")
     public List<ReelsResponse> getAllReels () {
-//        return reelsService.getAllReels();
         List<Reels> reels = reelsService.getAllReels();
         List<ReelsResponse> reelsResponses = new ArrayList<>();
+
+        if (reels == null)
+            return reelsResponses;
 
         for (Reels reel : reels) {
             List<String> mediaUrls = mediaService.getMediaByReelId(reel.getId())

@@ -46,13 +46,15 @@ public class UsersController {
     }
 
     @PostMapping("/get")
-    public Optional<Users> getUserById(@RequestBody UserIdRequest userGetRequest) {
-        return usersService.getUserById(userGetRequest.getUserId());
+    public ResponseEntity<Users> getUserById(@RequestBody UserIdRequest userGetRequest) {
+        Optional<Users> user = usersService.getUserById(userGetRequest.getUserId());
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @PostMapping("/getByName")
-    public Optional<Users> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
-        return usersService.findByUsername(usernameRequest.getUsername());
+    public ResponseEntity<Users> getUserByUsername(@RequestBody UsernameRequest usernameRequest) {
+        Optional<Users> user = usersService.findByUsername(usernameRequest.getUsername());
+        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
     @PostMapping("/create")
