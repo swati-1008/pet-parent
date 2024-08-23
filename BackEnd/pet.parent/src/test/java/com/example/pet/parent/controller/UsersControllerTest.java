@@ -58,7 +58,6 @@ public class UsersControllerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(usersController).build();
         objectMapper = new ObjectMapper();
     }

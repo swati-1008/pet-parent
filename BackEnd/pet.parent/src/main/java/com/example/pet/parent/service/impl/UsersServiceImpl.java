@@ -13,14 +13,13 @@ import java.util.Optional;
 @Service
 public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
+    private final FollowRepository followRepository;
 
     @Autowired
-    public UsersServiceImpl (UsersRepository usersRepository) {
+    public UsersServiceImpl (UsersRepository usersRepository, FollowRepository followRepository) {
         this.usersRepository = usersRepository;
+        this.followRepository = followRepository;
     }
-
-    @Autowired
-    private FollowRepository followRepository;
 
     @Override
     public List<Users> getAllUsers() {

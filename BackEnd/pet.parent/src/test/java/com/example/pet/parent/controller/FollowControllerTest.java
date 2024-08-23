@@ -43,7 +43,6 @@ public class FollowControllerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(followController).build();
         objectMapper = new ObjectMapper();
     }

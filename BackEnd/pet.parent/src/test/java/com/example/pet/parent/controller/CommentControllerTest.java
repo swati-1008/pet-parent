@@ -45,7 +45,6 @@ public class CommentControllerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
         objectMapper = new ObjectMapper();
     }

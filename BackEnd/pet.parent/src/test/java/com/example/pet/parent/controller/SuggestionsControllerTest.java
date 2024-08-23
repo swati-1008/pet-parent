@@ -39,7 +39,6 @@ public class SuggestionsControllerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(suggestionsController).build();
         objectMapper = new ObjectMapper();
     }

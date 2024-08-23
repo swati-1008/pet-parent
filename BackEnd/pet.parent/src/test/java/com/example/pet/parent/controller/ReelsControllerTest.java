@@ -45,7 +45,6 @@ public class ReelsControllerTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(reelsController).build();
         objectMapper = new ObjectMapper();
     }

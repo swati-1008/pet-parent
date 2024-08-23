@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class FollowIdRequest {
-    private int userId;
+    private Integer userId;
 }
